@@ -66,8 +66,11 @@ class Rediscache {
 		// get key
 		$cacheKey = $this->_get_cache_key($key);
 
-		$result = $this->CI->redis->set($cacheKey, $serializedVal );
-		$result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);
+		// $result = $this->CI->redis->set($cacheKey, $serializedVal );
+		// $result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);
+		
+		$result = $this->CI->redis->command("SETEX {$cacheKey} {$expire} {$serializedVal}");
+		
 		if ($result) {
 			return true;
 		} else {
